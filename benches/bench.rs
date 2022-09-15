@@ -68,7 +68,6 @@ fn generate_merkle_tree_circuit(num_leaves: usize) -> MerkleTreeVerification {
 macro_rules! marlin_prove_bench {
     ($bench_name:ident, $bench_field:ty, $bench_pairing_engine:ty) => {
         let rng = &mut ark_std::test_rng();
-        let c = generate_merkle_tree_circuit(32);
 
         let srs = Marlin::<
             $bench_field,
@@ -76,36 +75,40 @@ macro_rules! marlin_prove_bench {
             Blake2s,
         >::universal_setup(65536, 65536, 65536, rng)
         .unwrap();
-        let (pk, _) = Marlin::<
-            $bench_field,
-            MarlinKZG10<$bench_pairing_engine, DensePolynomial<$bench_field>>,
-            Blake2s,
-        >::index(&srs, c.clone())
-        .unwrap();
 
-        let start = ark_std::time::Instant::now();
-
-        for _ in 0..NUM_PROVE_REPEATITIONS {
-            let _ = Marlin::<
+        for n in 1..4 {
+            let c = generate_merkle_tree_circuit(1 << n);
+            let (pk, _) = Marlin::<
                 $bench_field,
                 MarlinKZG10<$bench_pairing_engine, DensePolynomial<$bench_field>>,
                 Blake2s,
-            >::prove(&pk, c.clone(), rng)
+            >::index(&srs, c.clone())
             .unwrap();
-        }
 
-        println!(
-            "per-constraint proving time for {}: {} ns",
-            stringify!($bench_pairing_engine),
-            start.elapsed().as_nanos() / NUM_PROVE_REPEATITIONS as u128
-        );
+            let start = ark_std::time::Instant::now();
+
+            for _ in 0..NUM_PROVE_REPEATITIONS {
+                let _ = Marlin::<
+                    $bench_field,
+                    MarlinKZG10<$bench_pairing_engine, DensePolynomial<$bench_field>>,
+                    Blake2s,
+                >::prove(&pk, c.clone(), rng)
+                .unwrap();
+            }
+
+            println!(
+                "Proving time for {} with {} leaves: {} ns",
+                stringify!($bench_pairing_engine),
+                1 << n,
+                start.elapsed().as_nanos() / NUM_PROVE_REPEATITIONS as u128
+            );
+        }
     };
 }
 
 macro_rules! marlin_verify_bench {
     ($bench_name:ident, $bench_field:ty, $bench_pairing_engine:ty) => {
         let rng = &mut ark_std::test_rng();
-        let c = generate_merkle_tree_circuit(32);
 
         let srs = Marlin::<
             $bench_field,
@@ -114,37 +117,41 @@ macro_rules! marlin_verify_bench {
         >::universal_setup(65536, 65536, 65536, rng)
         .unwrap();
 
-        let (pk, vk) = Marlin::<
-            $bench_field,
-            MarlinKZG10<$bench_pairing_engine, DensePolynomial<$bench_field>>,
-            Blake2s,
-        >::index(&srs, c.clone())
-        .unwrap();
-        let proof = Marlin::<
-            $bench_field,
-            MarlinKZG10<$bench_pairing_engine, DensePolynomial<$bench_field>>,
-            Blake2s,
-        >::prove(&pk, c.clone(), rng)
-        .unwrap();
-
-        let start = ark_std::time::Instant::now();
-
-        let v = c.clone().root;
-
-        for _ in 0..NUM_VERIFY_REPEATITIONS {
-            let _ = Marlin::<
+        for n in 1..4 {
+            let c = generate_merkle_tree_circuit(1 << n);
+            let (pk, vk) = Marlin::<
                 $bench_field,
                 MarlinKZG10<$bench_pairing_engine, DensePolynomial<$bench_field>>,
                 Blake2s,
-            >::verify(&vk, &vec![v], &proof, rng)
+            >::index(&srs, c.clone())
             .unwrap();
-        }
+            let proof = Marlin::<
+                $bench_field,
+                MarlinKZG10<$bench_pairing_engine, DensePolynomial<$bench_field>>,
+                Blake2s,
+            >::prove(&pk, c.clone(), rng)
+            .unwrap();
 
-        println!(
-            "verifying time for {}: {} ns",
-            stringify!($bench_pairing_engine),
-            start.elapsed().as_nanos() / NUM_VERIFY_REPEATITIONS as u128
-        );
+            let v = c.clone().root;
+
+            let start = ark_std::time::Instant::now();
+
+            for _ in 0..NUM_VERIFY_REPEATITIONS {
+                let _ = Marlin::<
+                    $bench_field,
+                    MarlinKZG10<$bench_pairing_engine, DensePolynomial<$bench_field>>,
+                    Blake2s,
+                >::verify(&vk, &vec![v], &proof, rng)
+                .unwrap();
+            }
+
+            println!(
+                "Verifying time for {} with {} leaves: {} ns",
+                stringify!($bench_pairing_engine),
+                1 << n,
+                start.elapsed().as_nanos() / NUM_VERIFY_REPEATITIONS as u128
+            );
+        }
     };
 }
 
