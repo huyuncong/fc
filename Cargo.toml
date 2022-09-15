@@ -1,5 +1,5 @@
 [package]
-name = "merkle-tree-example"
+name = "ark-fc"
 version = "0.3.0"
 authors = [
         "arkworks contributors",
@@ -24,6 +24,8 @@ ark-crypto-primitives = { version = "^0.3.0", default-features = true, features 
 tracing = { version = "0.1", default-features = false, features = [ "attributes" ] }
 tracing-subscriber = { version = "0.2" }
 
+rayon = { version = "1", optional = true }
+
 ark-marlin = { version = "^0.3.0", default-features = false }
 ark-poly-commit = { version = "^0.3.0", default-features = false }
 ark-poly = { version = "^0.3.0", default-features = false }
@@ -31,3 +33,16 @@ ark-poly = { version = "^0.3.0", default-features = false }
 [dev-dependencies]
 blake2 = { version = "0.9", default-features = false }
 ark-bls12-381 = { version = "^0.3.0", default-features = false, features = [ "curve" ] }
+
+[features]
+default = ["std", "parallel"]
+std = [ "ark-ff/std", "ark-poly/std", "ark-relations/std", "ark-std/std", "ark-serialize/std", "ark-poly-commit/std", "ark-marlin/std" ]
+print-trace = [ "ark-std/print-trace" ]
+parallel = [ "std", "ark-ff/parallel", "ark-poly/parallel", "ark-std/parallel", "ark-poly-commit/parallel", "ark-marlin/parallel", "rayon" ]
+
+
+[[bench]]
+name = "marlin-benches"
+path = "benches/bench.rs"
+harness = false
+required-features = ["std"]

@@ -69,7 +69,7 @@ fn merkle_tree_constraints_correctness_and_prove() {
     .unwrap();
 
     // Now, let's try to generate a membership proof for the 5th item, i.e. 9.
-    let proof = tree.generate_proof(4).unwrap(); // we're 0-indexing!
+    let proof = tree.generate_proof(0).unwrap(); // we're 0-indexing!
                                                  // This should be a proof for the membership of a leaf with value 9. Let's check that!
 
     // First, let's get the root we want to verify against:
@@ -82,7 +82,7 @@ fn merkle_tree_constraints_correctness_and_prove() {
 
         // public inputs
         root,
-        leaf: 9u8,
+        leaf: 1u8,
 
         // witness
         authentication_path: Some(proof),
@@ -112,11 +112,10 @@ fn merkle_tree_constraints_correctness_and_prove() {
     let (index_pk, index_vk) = MarlinInst::index(&universal_srs, circuit.clone()).unwrap();
     println!("Called index");
 
-    let public_input = [circuit.root];
-
     let proof = MarlinInst::prove(&index_pk, circuit.clone(), rng).unwrap();
     println!("Called prover");
 
+    let public_input = [circuit.root];
     println!(
         "{:?}",
         MarlinInst::verify(&index_vk, &public_input, &proof, rng)
