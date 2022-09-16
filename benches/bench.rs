@@ -70,7 +70,7 @@ macro_rules! marlin_prove_bench {
         let rng = &mut ark_std::test_rng();
         let c = generate_merkle_tree_circuit($num_leaves);
 
-        let vsize =  1 << 18;
+        let vsize = 1 << 18;
         let srs = Marlin::<
             $bench_field,
             MarlinKZG10<$bench_pairing_engine, DensePolynomial<$bench_field>>,
@@ -96,7 +96,7 @@ macro_rules! marlin_prove_bench {
         }
 
         println!(
-            "per-constraint proving time for {} with {} leaves : {} ns",
+            "Proving time for {} with {} leaves : {} ns",
             stringify!($bench_pairing_engine),
             $num_leaves,
             start.elapsed().as_nanos() / NUM_PROVE_REPEATITIONS as u128
@@ -108,7 +108,7 @@ macro_rules! marlin_verify_bench {
     ($bench_name:ident, $bench_field:ty, $bench_pairing_engine:ty, $num_leaves:expr) => {
         let rng = &mut ark_std::test_rng();
         let c = generate_merkle_tree_circuit($num_leaves);
-        let vsize =  1 << 18;
+        let vsize = 1 << 18;
 
         let srs = Marlin::<
             $bench_field,
@@ -144,7 +144,7 @@ macro_rules! marlin_verify_bench {
         }
 
         println!(
-            "verifying time for {} with {} leaves: {} ns",
+            "Verifying time for {} with {} leaves: {} ns",
             stringify!($bench_pairing_engine),
             $num_leaves,
             start.elapsed().as_nanos() / NUM_VERIFY_REPEATITIONS as u128
@@ -153,7 +153,7 @@ macro_rules! marlin_verify_bench {
 }
 
 fn bench_prove(n: i32) {
-    for i in 1..(n + 1) { 
+    for i in 1..(n + 1) {
         marlin_prove_bench!(bls, BlsFr, Bls12_381, 1 << i);
     }
 }
