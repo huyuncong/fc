@@ -1,0 +1,30 @@
+per-constraint proving time for Bls12_381 with 2 leaves : 660046750 ns
+per-constraint proving time for Bls12_381 with 4 leaves : 1065043830 ns
+per-constraint proving time for Bls12_381 with 8 leaves : 1494626640 ns
+per-constraint proving time for Bls12_381 with 16 leaves : 1925347480 ns
+per-constraint proving time for Bls12_381 with 32 leaves : 2756719570 ns
+per-constraint proving time for Bls12_381 with 64 leaves : 2711403400 ns
+per-constraint proving time for Bls12_381 with 128 leaves : 3640257340 ns
+per-constraint proving time for Bls12_381 with 256 leaves : 3649472520 ns
+per-constraint proving time for Bls12_381 with 512 leaves : 3607502830 ns
+per-constraint proving time for Bls12_381 with 1024 leaves : 5048269840 ns
+per-constraint proving time for Bls12_381 with 2048 leaves : 5276900160 ns
+per-constraint proving time for Bls12_381 with 4096 leaves : 5376386620 ns
+per-constraint proving time for Bls12_381 with 8192 leaves : 5138123600 ns
+per-constraint proving time for Bls12_381 with 16384 leaves : 6852045520 ns
+per-constraint proving time for Bls12_381 with 32768 leaves : 6860224670 ns
+verifying time for Bls12_381 with 2 leaves: 6697552 ns
+verifying time for Bls12_381 with 4 leaves: 6652946 ns
+verifying time for Bls12_381 with 8 leaves: 6886042 ns
+verifying time for Bls12_381 with 16 leaves: 6707352 ns
+verifying time for Bls12_381 with 32 leaves: 6676842 ns
+verifying time for Bls12_381 with 64 leaves: 6700088 ns
+verifying time for Bls12_381 with 128 leaves: 6654818 ns
+verifying time for Bls12_381 with 256 leaves: 6725364 ns
+verifying time for Bls12_381 with 512 leaves: 7299646 ns
+verifying time for Bls12_381 with 1024 leaves: 6689404 ns
+verifying time for Bls12_381 with 2048 leaves: 7044684 ns
+verifying time for Bls12_381 with 4096 leaves: 6638586 ns
+verifying time for Bls12_381 with 8192 leaves: 6701826 ns
+verifying time for Bls12_381 with 16384 leaves: 6716466 ns
+verifying time for Bls12_381 with 32768 leaves: 6681006 ns
