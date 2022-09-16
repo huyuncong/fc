@@ -8,11 +8,13 @@ with open('result', 'r') as fl:
     lines = fl.readlines()
     x = []
     y = []
-    for i in range(15, 30):
+    for i in range(0, 15):
+#    for i in range(15, 30):
         x.append(i + 1)
         y.append(int(lines[i].split()[-2]) / 10**6)
     plt.plot(x, y)
-    plt.title(u'verify耗时')
+#    plt.title(u'verify耗时')
+    plt.title(u'proof耗时')
     plt.xlabel(u'Merkel Tree大小')
-    plt.ylabel(u'耗时')
+    plt.ylabel(u'耗时(ms)')
     plt.show()
