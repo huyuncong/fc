@@ -6,6 +6,15 @@ plt.rcParams['axes.unicode_minus'] = False
 
 with open('result', 'r') as fl:
     lines = fl.readlines()
+    for i in range(15):
+        print(int(lines[i].split()[-2]) / 10**9)
+    for i in range(15, 30):
+        print(int(lines[i].split()[-2]) / 10**6)
+
+exit()
+
+with open('result', 'r') as fl:
+    lines = fl.readlines()
     x = []
     y = []
     for i in range(0, 15):
