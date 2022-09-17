@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 plt.rcParams['font.sans-serif'] = ['SimHei']
 plt.rcParams['axes.unicode_minus'] = False
 
+"""
 with open('result', 'r') as fl:
     lines = fl.readlines()
     for i in range(15):
@@ -12,18 +13,20 @@ with open('result', 'r') as fl:
         print(int(lines[i].split()[-2]) / 10**6)
 
 exit()
+"""
 
 with open('result', 'r') as fl:
     lines = fl.readlines()
     x = []
     y = []
-    for i in range(0, 15):
-#    for i in range(15, 30):
-        x.append(i + 1)
+#    for i in range(0, 15):
+    for i in range(15, 30):
+        x.append('2^%d' % (i -15 + 1))
         y.append(int(lines[i].split()[-2]) / 10**6)
+    plt.ylim((0, 20))
     plt.plot(x, y)
-#    plt.title(u'verify耗时')
-    plt.title(u'proof耗时')
-    plt.xlabel(u'Merkel Tree大小')
+    plt.title(u'verify耗时')
+#    plt.title(u'proof耗时')
+    plt.xlabel(u'Merkle Tree大小')
     plt.ylabel(u'耗时(ms)')
     plt.show()

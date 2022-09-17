@@ -81,6 +81,7 @@ fn main() {
     println!("已完成");
     let vsize = 1 << 15;
 
+    /*
     let srs =
         Marlin::<BlsFr, MarlinKZG10<Bls12_381, DensePolynomial<BlsFr>>, Blake2s>::universal_setup(
             vsize, vsize, vsize, rng,
@@ -122,4 +123,5 @@ fn main() {
         num_leaves,
         start.elapsed().as_nanos() as u128
     );
+    */
 }
