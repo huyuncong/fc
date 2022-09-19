@@ -41,14 +41,16 @@ fn generate_merkle_tree_circuit(num_leaves: usize) -> MerkleTreeVerification {
     .unwrap();
     println!("已完成");
 
-
     use std::io;
     println!("请选择需要证明的结点（隐私输入）: ");
     let mut input = String::new();
-    let node = io::stdin().read_line(&mut input).ok().expect("Failed to read line");
-//    println!("{}", node);
+    let node = io::stdin()
+        .read_line(&mut input)
+        .ok()
+        .expect("Failed to read line");
+    //    println!("{}", node);
     let node: usize = input.trim().parse().expect("Please type a number!");
-//    let node = 0;
+    //    let node = 0;
     /*
     println!("{}号结点Hash值为{:?}",
         node,
@@ -66,7 +68,7 @@ fn generate_merkle_tree_circuit(num_leaves: usize) -> MerkleTreeVerification {
     println!("验证路径（自顶向下顺序）上的结点Hash值（隐私输入）为");
     for bro_node in &proof.auth_path {
         println!("{:?}", bro_node);
-//    println!("{:?}", proof.auth_path);
+        //    println!("{:?}", proof.auth_path);
     }
     println!("{:?}", proof.leaf_sibling_hash);
 
@@ -86,8 +88,8 @@ fn generate_merkle_tree_circuit(num_leaves: usize) -> MerkleTreeVerification {
 }
 
 fn main() {
-print!("\x1b[2J");
-print!("\x1b[H");
+    print!("\x1b[2J");
+    print!("\x1b[H");
     let num_leaves = 1 << 3;
 
     let rng = &mut ark_std::test_rng();
@@ -115,16 +117,15 @@ print!("\x1b[H");
         rng,
     )
     .unwrap();
-//    println!(proof.print_size_info());
-    println!("已完成，单线程执行下耗时{}ms",
+    println!(
+        "已完成，单线程执行下耗时{}ms",
         start.elapsed().as_millis() as u128
     );
-
 
     let v = c.clone().root;
 
     println!("验证证明...");
-    let start = ark_std::time::Instant::now();
+    let start2 = ark_std::time::Instant::now();
     let _ = Marlin::<BlsFr, MarlinKZG10<Bls12_381, DensePolynomial<BlsFr>>, Blake2s>::verify(
         &vk,
         &vec![v],
@@ -135,9 +136,8 @@ print!("\x1b[H");
 
     println!(
         "已完成，单线程验证{}个叶子结点的Merkle Tree耗时{}ms",
-//        "Verifying time for {} with {} leaves: {} ms",
-//        stringify!(Bls12_381),
         num_leaves,
-        start.elapsed().as_millis() as u128
+        start2.elapsed().as_millis() as u128
     );
+    println!("注：因测试环境与线程使用情况不同，可能与benchmark结果有差异。");
 }
